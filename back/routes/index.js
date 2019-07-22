@@ -3,33 +3,29 @@ import express from 'express';
 const router = express.Router();
 const connection = require('./config');
 
-/* GET index page. */
-
 router.get('/artists', (req, res) => {
-  connection.querry('select*from artists', (err, result) => {
+  connection.query('select * from artists', (err, artists) => {
     if (err) {
       res.sendStatus(500);
-    }else{
-      res.json(results);
     }
+    res.json(artists);
   });
 });
 
 router.get('/tickets', (req, res) => {
-  connection.querry('select*from tickets', (err, result) =>{
+  connection.query('select * from tickets', (err, tickets) => {
     if (err) {
       res.sendStatus(500);
-    }else{
-      res.json(results);
     }
-  })
+    res.json(tickets);
+  });
 })
 
 router.get('/videos', (req, res) => {
-  connection.querry('select*from videos', (err, result) =>{
+  connection.query('select*from videos', (err, results) =>{
     if (err) {
       res.sendStatus(500);
-    }else{
+    } else {
       res.json(results);
     }
   })
@@ -37,7 +33,7 @@ router.get('/videos', (req, res) => {
 
 router.delete('/artists/:id(\\d+)', (req, res) => {
   const { id } = req.params;
-  connection.query('delet from artists where id=?', [id], (err) => {
+  connection.query('delete from artists where id=?', [id], (err) => {
     if (err) {
       res.sendStatus(500);
     } else {
@@ -48,7 +44,7 @@ router.delete('/artists/:id(\\d+)', (req, res) => {
 
 router.delete('/tickets/:id(\\d+)', (req, res) => {
   const { id } = req.params;
-  connection.query('delet from tickets where id=?', [id], (err) => {
+  connection.query('delete from tickets where id=?', [id], (err) => {
     if (err) {
       res.sendStatus(500);
     } else {
@@ -59,7 +55,7 @@ router.delete('/tickets/:id(\\d+)', (req, res) => {
 
 router.delete('/videos/:id(\\d+)', (req, res) => {
   const { id } = req.params;
-  connection.query('delet from videos where id=?', [id], (err) => {
+  connection.query('delete from videos where id=?', [id], (err) => {
     if (err) {
       res.sendStatus(500);
     } else {
@@ -108,7 +104,7 @@ router.post('/artists', (req, res) => {
   const { body } = req;
   const form = {
     ...JSON.parse(body.form)
-  }
+  };
   connection.query('insert into artists set ?', form, (err) => {
     if (err) {
       res.sendStatus(500);
@@ -122,7 +118,7 @@ router.post('/tickets', (req, res) => {
   const { body } = req;
   const form = {
     ...JSON.parse(body.form)
-  }
+  };
   connection.query('insert into tickets set ?', form, (err) => {
     if (err) {
       res.sendStatus(500);
